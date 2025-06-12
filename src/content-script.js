@@ -994,7 +994,17 @@
 
   // Listen for messages from popup
   chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-    if (request.action === "toggle") {
+    if (request.action === "toggleTranslation") {
+      // Use the isActive state from the popup instead of toggling
+      if (request.isActive) {
+        activateTranslation();
+        sendResponse({ status: "activated" });
+      } else {
+        deactivateTranslation();
+        sendResponse({ status: "deactivated" });
+      }
+    } else if (request.action === "toggle") {
+      // Keep backward compatibility
       if (isTranslationActive) {
         deactivateTranslation();
         sendResponse({ status: "deactivated" });
