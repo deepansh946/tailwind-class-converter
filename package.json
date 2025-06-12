@@ -1,0 +1,29 @@
+{
+  "name": "tailwind-class-translator",
+  "version": "1.0.0",
+  "description": "Chrome extension to translate Tailwind CSS utility classes into readable CSS properties",
+  "main": "src/background.js",
+  "scripts": {
+    "build": "mkdir -p dist && cp -r src manifest.json dist/",
+    "dev": "npm run build && echo 'Load dist folder in Chrome extensions'",
+    "clean": "rm -rf dist",
+    "zip": "npm run build && cd dist && zip -r ../tailwind-class-translator.zip ."
+  },
+  "keywords": [
+    "chrome-extension",
+    "tailwind",
+    "css",
+    "developer-tools",
+    "debugging"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "devDependencies": {
+    "prettier": "^3.0.0",
+    "eslint": "^8.50.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/tailwind-class-translator.git"
+  }
+}
