@@ -1,155 +1,111 @@
 # 🎨 Tailwind Class Translator
 
-A Chrome browser extension that helps developers debug Tailwind CSS by translating utility classes into readable CSS properties on hover.
+A browser extension that translates Tailwind CSS utility classes into readable CSS properties. Built with [Plasmo](https://github.com/PlasmoHQ/plasmo) framework.
 
 ## Features
 
-✨ **Hover-based Translation**: Simply activate the extension and hover over elements to see Tailwind classes translated to CSS  
-📐 **Categorized Display**: CSS properties organized by category (Layout, Spacing, Typography, Colors, etc.)  
-🎯 **Smart Detection**: Automatically identifies Tailwind utility classes  
-📱 **Responsive Support**: Shows responsive prefixes (sm:, md:, lg:, xl:, 2xl:)  
-🎭 **Pseudo-class Support**: Displays state prefixes (hover:, focus:, active:, etc.)  
-🚀 **Zero Configuration**: Works out of the box with any Tailwind CSS project  
-
-## How It Works
-
-1. **Click the extension icon** to activate translation mode
-2. **Hover over any element** with Tailwind classes
-3. **See instant translations** in a beautiful tooltip
-4. **Click again** to deactivate
-
-## Example Translation
-
-**Input:** `flex items-center justify-between p-4 bg-blue-500 text-white font-bold rounded-lg hover:bg-blue-700`
-
-**Output:**
-```
-Layout:
-• display: flex
-• align-items: center
-• justify-content: space-between
-
-Spacing:
-• padding: 1rem
-
-Colors:
-• background-color: #3b82f6
-• color: #ffffff
-
-Typography:
-• font-weight: 700
-
-Borders:
-• border-radius: 0.5rem
-
-Pseudo-states:
-• hover: background-color: #1d4ed8
-```
-
-## Installation
-
-### Install from Chrome Web Store (Coming Soon)
-_Extension will be available on the Chrome Web Store soon!_
-
-### Install Manually
-1. Clone or download this repository
-2. Run `npm run build` to build the extension
-3. Open Chrome and go to `chrome://extensions/`
-4. Enable "Developer mode" (top right)
-5. Click "Load unpacked" and select the `dist` folder
+- **Hover Detection**: Hover over any element with Tailwind classes to see translations
+- **Visual Highlighting**: Elements with Tailwind classes are highlighted with a blue glow
+- **Comprehensive Coverage**: Supports hundreds of Tailwind utility classes
+- **Categorized Output**: CSS properties are organized by category (layout, typography, colors, etc.)
+- **Performance Optimized**: Caches translations for better performance
+- **Modern UI**: Clean, responsive popup interface
 
 ## Development
 
 ### Prerequisites
-- Node.js (v14 or higher)
-- Chrome browser
+
+- Node.js 16.x or later
+- npm or pnpm
 
 ### Setup
+
+1. Clone the repository:
+
 ```bash
-# Clone the repository
-git clone https://github.com/yourusername/tailwind-class-translator.git
+git clone <repository-url>
 cd tailwind-class-translator
+```
 
-# Install dependencies
+2. Install dependencies:
+
+```bash
 npm install
+```
 
-# Build the extension
-npm run build
+3. Start development server:
 
-# For development (watches for changes)
+```bash
 npm run dev
 ```
 
-### Project Structure
+4. Load the extension in your browser:
+   - Open Chrome/Edge and go to `chrome://extensions/`
+   - Enable "Developer mode"
+   - Click "Load unpacked" and select the `build/chrome-mv3-dev` folder
+
+### Build
+
+To build for production:
+
+```bash
+npm run build
 ```
-tailwind-class-translator/
-├── manifest.json              # Extension manifest
-├── src/
-│   ├── popup.html            # Extension popup interface
-│   ├── popup.js              # Popup logic
-│   ├── content-script.js     # Main content script with hover logic
-│   ├── background.js         # Service worker
-│   ├── tailwind-mappings.js  # Comprehensive class mappings
-│   └── tailwind-translator.js # Translation engine
-├── package.json
-└── README.md
+
+To package the extension:
+
+```bash
+npm run package
 ```
+
+## Project Structure
+
+```
+├── popup.tsx              # Extension popup UI (React)
+├── content.ts             # Content script for page interaction
+├── tailwind-translator.ts # Core translation logic
+├── tailwind-mappings.ts   # Tailwind class mappings
+├── package.json           # Dependencies and scripts
+├── tsconfig.json          # TypeScript configuration
+└── .prettierrc           # Code formatting rules
+```
+
+## How It Works
+
+1. **Activation**: Click the extension icon and press "Activate" to enable translation mode
+2. **Detection**: Hover over any element on the page
+3. **Translation**: If the element has Tailwind classes, they are translated to CSS properties
+4. **Display**: A tooltip shows the original classes and their CSS equivalents
+5. **Highlighting**: Elements with Tailwind classes are highlighted with a blue outline
 
 ## Supported Tailwind Classes
 
-The extension supports a comprehensive set of Tailwind utility classes including:
+The extension supports a wide range of Tailwind utility classes including:
 
-- **Layout**: `flex`, `grid`, `block`, `hidden`, `relative`, `absolute`, etc.
-- **Spacing**: `m-*`, `p-*`, `gap-*`, etc.
-- **Typography**: `text-*`, `font-*`, `leading-*`, etc.
-- **Colors**: `bg-*`, `text-*`, `border-*`, etc.
-- **Sizing**: `w-*`, `h-*`, `min-*`, `max-*`, etc.
-- **Borders**: `rounded-*`, `border-*`, etc.
-- **Effects**: `shadow-*`, `opacity-*`, etc.
-- **Responsive**: `sm:*`, `md:*`, `lg:*`, `xl:*`, `2xl:*`
-- **Pseudo-classes**: `hover:*`, `focus:*`, `active:*`, etc.
+- **Layout**: `flex`, `grid`, `block`, `inline`, etc.
+- **Spacing**: `p-4`, `m-2`, `px-6`, `py-8`, etc.
+- **Typography**: `text-lg`, `font-bold`, `text-center`, etc.
+- **Colors**: `text-blue-500`, `bg-gray-100`, etc.
+- **Borders**: `border`, `rounded-lg`, `border-red-500`, etc.
+- **Sizing**: `w-full`, `h-screen`, `max-w-md`, etc.
+- **Positioning**: `absolute`, `relative`, `z-10`, etc.
+- **And many more...**
+
+## Technologies Used
+
+- **[Plasmo](https://github.com/PlasmoHQ/plasmo)**: Modern browser extension framework
+- **React**: For popup UI components
+- **TypeScript**: For type safety and better development experience
+- **Tailwind CSS**: For styling the extension interface
 
 ## Contributing
 
-Contributions are welcome! Here's how you can help:
-
-1. **Report bugs** by creating issues
-2. **Suggest features** or improvements
-3. **Add more Tailwind class mappings** in `src/tailwind-mappings.js`
-4. **Improve the UI/UX** of the tooltip or popup
-5. **Submit pull requests** with fixes or features
-
-### Development Guidelines
-- Follow the existing code style
-- Test thoroughly with different Tailwind projects
-- Update documentation for new features
-- Keep performance in mind (the extension runs on every page)
-
-## Browser Compatibility
-
-- Chrome 88+ (Manifest V3 required)
-- Chromium-based browsers (Edge, Brave, etc.)
-
-## Privacy
-
-This extension:
-- ✅ Only runs when activated by the user
-- ✅ Does not collect any personal data
-- ✅ Does not send data to external servers
-- ✅ Only analyzes CSS classes locally
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Test thoroughly
+5. Submit a pull request
 
 ## License
 
-MIT License - see [LICENSE](LICENSE) for details.
-
-## Changelog
-
-### v1.0.0
-- Initial release with hover-based translation
-- Support for 100+ Tailwind utility classes
-- Responsive and pseudo-class prefix support
-- Beautiful categorized tooltip display
-
----
-
-**Made with ❤️ for the Tailwind CSS community** 
+MIT License - see LICENSE file for details
