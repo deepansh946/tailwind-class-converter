@@ -7,7 +7,9 @@
   let isTranslationActive = false;
   let translator = null;
   let currentTooltip = null;
+  let currentClassIndicator = null;
   let hoveredElement = null;
+  let hoveredElementClasses = null;
   let hoverTimeout = null;
 
   // Comprehensive Tailwind CSS class mappings (inline)
@@ -689,6 +691,7 @@
     }
 
     hoveredElement = element;
+    hoveredElementClasses = classes;
 
     // Add highlight to the element
     addElementHighlight(element);
@@ -762,10 +765,17 @@
 
     const elementInfo = `<${element.tagName.toLowerCase()}${element.id ? ` id="${element.id}"` : ""}>`;
 
+    // Get the Tailwind classes that were used for translation
+    const classes = getElementClasses(element);
+    const tailwindClasses = classes.filter((className) =>
+      translator.isTailwindClass(className)
+    );
+
     let html = `
       <div class="tooltip-header">
         <div class="element-tag">${elementInfo}</div>
         <div class="class-count">${translationResult.totalCount} Tailwind classes</div>
+        <div class="tailwind-classes">${tailwindClasses.join(" ")}</div>
       </div>
     `;
 
@@ -891,6 +901,19 @@
         margin-top: 2px;
       }
       
+      .tailwind-translator-tooltip .tailwind-classes {
+        font-family: 'SF Mono', Monaco, monospace;
+        font-size: 11px;
+        color: #34d399;
+        margin-top: 6px;
+        padding: 6px 8px;
+        background: #1f2937;
+        border-radius: 4px;
+        border: 1px solid #374151;
+        word-break: break-all;
+        line-height: 1.3;
+      }
+      
       .tailwind-translator-tooltip .tooltip-category {
         border-bottom: 1px solid #374151;
       }
@@ -1002,6 +1025,7 @@
       currentTooltip = null;
     }
     hoveredElement = null;
+    hoveredElementClasses = null;
   }
 
   // Get element classes
@@ -1030,6 +1054,36 @@
       
       .tailwind-translator-highlighted * {
         position: relative !important;
+      }
+
+      .tailwind-class-indicator {
+        position: fixed !important;
+        background: #1f2937 !important;
+        color: #f3f4f6 !important;
+        border: 1px solid #3b82f6 !important;
+        border-radius: 6px !important;
+        padding: 8px 12px !important;
+        font-family: 'SF Mono', Monaco, monospace !important;
+        font-size: 12px !important;
+        line-height: 1.4 !important;
+        z-index: 999999 !important;
+        max-width: 300px !important;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
+        pointer-events: none !important;
+      }
+
+      .tailwind-class-indicator .class-label {
+        color: #60a5fa !important;
+        font-weight: 600 !important;
+        margin-bottom: 4px !important;
+        font-size: 11px !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.5px !important;
+      }
+
+      .tailwind-class-indicator .class-list {
+        color: #34d399 !important;
+        word-break: break-all !important;
       }
     `;
 
