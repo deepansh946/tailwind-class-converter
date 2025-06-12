@@ -604,6 +604,9 @@
       translator = new TailwindTranslator();
       console.log("Tailwind Translator initialized successfully");
 
+      // Inject highlight styles
+      injectHighlightStyles();
+
       // Check initial state from storage
       chrome.storage.local.get(["translationActive"], (result) => {
         if (result.translationActive) {
@@ -643,8 +646,9 @@
     document.removeEventListener("scroll", hideTooltip, true);
     window.removeEventListener("resize", hideTooltip);
 
-    // Hide any active tooltip
+    // Hide any active tooltip and remove highlight
     hideTooltip();
+    removeElementHighlight();
   }
 
   // Handle mouse over events
@@ -669,12 +673,25 @@
       translator.isTailwindClass(className)
     );
 
+    console.log(
+      "Mouse over element:",
+      element.tagName,
+      "classes:",
+      classes,
+      "tailwind classes:",
+      tailwindClasses
+    );
+
     if (tailwindClasses.length === 0) {
       hideTooltip();
+      removeElementHighlight();
       return;
     }
 
     hoveredElement = element;
+
+    // Add highlight to the element
+    addElementHighlight(element);
 
     // Show tooltip after a short delay
     hoverTimeout = setTimeout(() => {
@@ -701,10 +718,11 @@
       return; // Don't hide if moving to tooltip
     }
 
-    // Hide tooltip after a short delay
+    // Hide tooltip and remove highlight after a short delay
     setTimeout(() => {
       if (hoveredElement === event.target) {
         hideTooltip();
+        removeElementHighlight();
       }
     }, 100);
   }
@@ -990,6 +1008,65 @@
   function getElementClasses(element) {
     const classList = element.classList;
     return Array.from(classList);
+  }
+
+  // Inject highlight styles into document
+  function injectHighlightStyles() {
+    // Check if styles already injected
+    if (document.getElementById("tailwind-translator-highlight-styles")) {
+      return;
+    }
+
+    const styleSheet = document.createElement("style");
+    styleSheet.id = "tailwind-translator-highlight-styles";
+    styleSheet.textContent = `
+      .tailwind-translator-highlighted {
+        box-shadow: 0 0 0 2px #3b82f6, 0 0 0 4px rgba(59, 130, 246, 0.3) !important;
+        outline: 2px solid #3b82f6 !important;
+        outline-offset: 2px !important;
+        position: relative !important;
+        z-index: 999998 !important;
+      }
+      
+      .tailwind-translator-highlighted * {
+        position: relative !important;
+      }
+    `;
+
+    document.head.appendChild(styleSheet);
+    console.log("Highlight styles injected into document");
+  }
+
+  // Add highlight to element
+  function addElementHighlight(element) {
+    // Remove any existing highlights first
+    removeElementHighlight();
+
+    console.log("Adding highlight to element:", element);
+
+    // Simply add the highlight class - CSS will handle the styling
+    element.classList.add("tailwind-translator-highlighted");
+
+    console.log("Highlight class added, element classes:", element.className);
+  }
+
+  // Remove highlight from element
+  function removeElementHighlight() {
+    // Find any highlighted elements
+    const highlightedElements = document.querySelectorAll(
+      ".tailwind-translator-highlighted"
+    );
+
+    console.log(
+      "Removing highlights from",
+      highlightedElements.length,
+      "elements"
+    );
+
+    highlightedElements.forEach((element) => {
+      // Simply remove the highlight class - CSS handles the rest
+      element.classList.remove("tailwind-translator-highlighted");
+    });
   }
 
   // Listen for messages from popup
