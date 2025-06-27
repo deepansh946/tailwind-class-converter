@@ -1,29 +1,36 @@
 {
   "name": "tailwind-class-translator",
-  "version": "1.0.0",
-  "description": "Chrome extension to translate Tailwind CSS utility classes into readable CSS properties",
-  "main": "src/background.js",
+  "displayName": "Tailwind Class Translator",
+  "version": "2.0.0",
+  "description": "Translate Tailwind CSS utility classes into readable CSS properties for easier debugging",
+  "type": "module",
   "scripts": {
-    "build": "mkdir -p dist && cp -r src manifest.json dist/",
-    "dev": "npm run build && echo 'Load dist folder in Chrome extensions'",
-    "clean": "rm -rf dist",
-    "zip": "npm run build && cd dist && zip -r ../tailwind-class-translator.zip ."
+    "dev": "plasmo dev",
+    "build": "plasmo build",
+    "package": "plasmo package",
+    "clean": "rm -rf build dist .plasmo"
   },
-  "keywords": [
-    "chrome-extension",
-    "tailwind",
-    "css",
-    "developer-tools",
-    "debugging"
-  ],
-  "author": "Your Name",
-  "license": "MIT",
+  "dependencies": {
+    "@plasmohq/messaging": "^0.6.2",
+    "@plasmohq/storage": "^1.12.0",
+    "plasmo": "0.90.5",
+    "react": "18.2.0",
+    "react-dom": "18.2.0"
+  },
   "devDependencies": {
-    "prettier": "^3.0.0",
-    "eslint": "^8.50.0"
+    "@types/chrome": "0.0.268",
+    "@types/node": "20.11.5",
+    "@types/react": "18.2.0",
+    "@types/react-dom": "18.2.0",
+    "typescript": "5.3.3"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/yourusername/tailwind-class-translator.git"
+  "manifest": {
+    "host_permissions": [
+      "<all_urls>"
+    ],
+    "permissions": [
+      "activeTab",
+      "storage"
+    ]
   }
 }
